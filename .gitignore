@@ -57,3 +57,6 @@ env/
 
 # Development database
 *.db
+
+# Pycharm IDE
+.idea/
