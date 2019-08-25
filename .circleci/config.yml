@@ -7,7 +7,7 @@ executors:
   my-executor:
     docker:
       - image: circleci/python:3.7.4
-    working_directory: ~/testdriven-app
+    working_directory: '~/testdriven-app'
 
 jobs:
     build_test_lint:
