@@ -43,7 +43,7 @@ workflows:
     version: 2
     build-test-lint:
         jobs:
-          - build
+          - build_users_service
           - do-unit-tests:
               requires:
                   - build_users_service
