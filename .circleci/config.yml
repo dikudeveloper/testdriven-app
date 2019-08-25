@@ -22,13 +22,13 @@ jobs:
                 paths: .
     do-unit-tests:
       executor: my-executor
-        steps:
-            - checkout
-            - attach_workspace:
-                at: ~/testdriven-app-workspace
-            - run:
-                name: Unit Tests
-                command: docker-compose exec users python manage.py test
+      steps:
+          - checkout
+          - attach_workspace:
+              at: ~/testdriven-app-workspace
+          - run:
+              name: Unit Tests
+              command: docker-compose exec users python manage.py test
     do-code-quality:
       executor: my-executor
       steps:
