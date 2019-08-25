@@ -16,7 +16,7 @@ jobs:
             - checkout
             - run:
                 name: Build and Run Containers
-                command: docker-compose up -d --build
+                command: sudo docker-compose up -d --build
             - persist_to_workspace:
                 root: ~/testdriven-app-workspace
                 paths: .
@@ -28,7 +28,7 @@ jobs:
               at: ~/testdriven-app-workspace
           - run:
               name: Unit Tests
-              command: docker-compose exec users python manage.py test
+              command: sudo docker-compose exec users python manage.py test
     do-code-quality:
       executor: my-executor
       steps:
@@ -37,7 +37,7 @@ jobs:
             at: ~/testdriven-app-workspace
         - run:
             name: Code Quality -- Linting
-            command: docker-compose exec users flake8 project
+            command: sudo docker-compose exec users flake8 project
 
 workflows:
     version: 2
