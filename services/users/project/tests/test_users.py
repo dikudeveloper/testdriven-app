@@ -95,13 +95,13 @@ class TestUserService(BaseTestCase):
 
     def test_single_user(self):
         """Ensure get single user behaves correctly."""
-        user = add_user('diku', 'diku@testdriven-app.org')
+        user = add_user('dikuj', 'joseph.diku@testdriven-app.org')
         with self.client:
             response = self.client.get(f'/users/{user.id}')
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
-            self.assertIn('diku', data['data']['username'])
-            self.assertIn('diku@testdriven-app.org', data['data']['email'])
+            self.assertIn('dikuj', data['data']['username'])
+            self.assertIn('joseph.diku@testdriven-app.org', data['data']['email'])
             self.assertIn('success', data['status'])
 
     def test_single_user_no_id(self):
@@ -124,19 +124,19 @@ class TestUserService(BaseTestCase):
 
     def test_all_users(self):
         """Ensure get all users behaves correctly."""
-        add_user('joseph', 'joseph@testdriven-app.org')
-        add_user('martin', 'martin@testdriven-app.com')
+        add_user('josephdiku', 'josephdiku@testdriven-app.org')
+        add_user('martinmatovu', 'martinmatovu@testdriven-app.com')
         with self.client:
             response = self.client.get('/users')
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(len(data['data']['users']), 2)
-            self.assertIn('joseph', data['data']['users'][0]['username'])
+            self.assertIn('josephdiku', data['data']['users'][0]['username'])
             self.assertIn(
-                'joseph@testdriven-app.org', data['data']['users'][0]['email'])
-            self.assertIn('martin', data['data']['users'][1]['username'])
+                'josephdiku@testdriven-app.org', data['data']['users'][0]['email'])
+            self.assertIn('martinmatovu', data['data']['users'][1]['username'])
             self.assertIn(
-                'martin@testdriven-app.com', data['data']['users'][1]['email'])
+                'martinmatovu@testdriven-app.com', data['data']['users'][1]['email'])
             self.assertIn('success', data['status'])
 
 
