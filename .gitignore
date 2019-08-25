@@ -60,3 +60,6 @@ env/
 
 # Pycharm IDE
 .idea/
+
+# Coverage reports
+services/users/htmlcov/
