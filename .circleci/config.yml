@@ -10,7 +10,7 @@ executors:
     working_directory: '~/testdriven-app'
 
 jobs:
-    build_test_lint:
+    build:
         executor: my-executor
         steps:
             - checkout
