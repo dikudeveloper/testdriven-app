@@ -1,0 +1,52 @@
+# Python CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2.1
+executors:
+  my-executor:
+    docker:
+      - image: circleci/python:3.7.4
+    working_directory: ~/testdriven-app
+
+jobs:
+    build_users_service:
+        executor: my-executor
+        steps:
+            - checkout
+            - run:
+                name: Build and Run Containers
+                command: docker-compose up -d --build
+            - persist_to_workspace:
+                root: ~/testdriven-app-workspace
+                paths: .
+    do-unit-tests:
+      executor: my-executor
+        steps:
+            - checkout
+            - attach_workspace:
+                at: ~/testdriven-app-workspace
+            - run:
+                name: Unit Tests
+                command: docker-compose exec users python manage.py test
+    do-code-quality:
+      executor: my-executor
+      steps:
+        - checkout
+        - attach_workspace:
+            at: ~/testdriven-app-workspace
+        - run:
+            name: Code Quality -- Linting
+            command: docker-compose exec users flake8 project
+
+workflows:
+    version: 2
+    build-test-lint:
+        jobs:
+          - build
+          - do-unit-tests:
+              requires:
+                  - build_users_service
+          - do-code-quality:
+              requires:
+                - do-unit-tests
