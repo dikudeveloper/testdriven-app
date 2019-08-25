@@ -10,23 +10,18 @@ executors:
     working_directory: ~/testdriven-app
 
 jobs:
-    build_users_service:
+    build_test_lint:
         executor: my-executor
         steps:
             - checkout
             - setup_remote_docker:
                 - docker_layer_caching: true
             - run:
-                name: Build and Run Containers
+                name: Build Containers
                 command: docker-compose up -d --build
             - run:
-                name: Unit Tests
+                name: Run Unit Tests inside Container
                 command: docker-compose exec users python manage.py test
             - run:
-                name: Code Quality - Linting
+                name: Code Quality -- Linting and Coverage
                 command: docker-compose exec users flake8 project
-workflows:
-    version: 2
-    build-test-lint:
-        jobs:
-          - build_users_service
