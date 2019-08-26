@@ -14,9 +14,9 @@ api = Api(users_blueprint)
 class UsersPing(Resource):
     def get(self):
         return {
-        'status': 'success',
-        'message': 'pong!'
-    }
+            'status': 'success',
+            'message': 'pong!'
+        }
 
 
 class UsersList(Resource):
