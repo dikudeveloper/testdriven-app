@@ -5,13 +5,9 @@
 version: 2.1
 executors:
   my-executor:
-    docker:
-      - image: circleci/python:3.7.4
-    working_directory: '~/testdriven-app'
-
-attach_workspace: &attach_workspace
-  attach_workspace:
-    at: ~/testdriven-app/tmp
+    machine:
+      - image: ubuntu-1604:201903-01
+    working_directory: ~/testdriven-app
 
 
 jobs:
@@ -19,8 +15,7 @@ jobs:
         executor: my-executor
         steps:
             - checkout
-            - setup_remote_docker
-            - *attach_workspace
+#            - setup_remote_docker
             - run:
                 name: Build Containers
                 command: docker-compose up -d --build
@@ -30,5 +25,3 @@ jobs:
             - run:
                 name: Code Quality -- Linting and Coverage
                 command: docker-compose exec users flake8 project
-            - persist_to_workspace:
-                root: tmp
