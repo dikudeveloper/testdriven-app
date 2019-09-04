@@ -3,25 +3,19 @@
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
 version: 2.1
-executors:
-  my-executor:
-    machine:
-      - image: ubuntu-1604:201903-01
-    working_directory: ~/testdriven-app
-
-
 jobs:
-    build:
-        executor: my-executor
-        steps:
-            - checkout
-#            - setup_remote_docker
-            - run:
-                name: Build Containers
-                command: docker-compose up -d --build
-            - run:
-                name: Run Unit Tests inside Container
-                command: docker-compose exec users python manage.py test
-            - run:
-                name: Code Quality -- Linting and Coverage
-                command: docker-compose exec users flake8 project
+  build:
+    machine:
+      image: ubuntu-1604:201903-01
+    working_directory: ~/testdriven-app
+    steps:
+      - checkout
+      - run:
+          name: Build Containers
+          command: docker-compose up -d --build
+      - run:
+          name: Run Unit Tests inside a Container
+          command: docker-compose exec users python manage.py test
+      - run:
+          name: Code Quality -- Linting and Coverage
+          command: docker-compose exec users flake8 project
