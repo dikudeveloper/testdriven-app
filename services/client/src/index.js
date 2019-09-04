@@ -7,6 +7,9 @@ import axios from 'axios';
 class App extends Component {
   constructor() {
     super();
+    this.state = {
+      users: []
+    };
   };
 
   componentDidMount() {
@@ -15,7 +18,7 @@ class App extends Component {
 
   getUsers() {
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
-    .then((res) => { console.log(res.data.data); })
+    .then((res) => { this.setState({ users: res.data.data.users }); })
     .catch((err) => { console.log(err); });
   };
 
