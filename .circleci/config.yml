@@ -15,9 +15,18 @@ jobs:
           command: docker-compose up -d --build
       - run:
           name: Run Unit Tests inside a Container
-          command: docker-compose exec users python manage.py test
+          command: docker-compose exec users python manage.py test > /tmp/test-results
       - run:
           name: Code Quality -- Linting and Coverage
-          command: docker-compose exec users flake8 project
+          command: |
+            mkdir -p /tmp/test-reports
+            echo "Linting Report:"
+            echo "================"
+            docker-compose exec users flake8 project > /tmp/test-reports/test-reports.log
+            echo "Coverage Report:"
+            echo "================="
+            docker-compose exec users python manage.py cov >> /tmp/test-reports/test-reports.log
+      - store_artifacts:
+          path: /tmp/test-reports
       - store_test_results:
           path: test-results
