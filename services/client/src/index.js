@@ -11,19 +11,42 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      users: []
+      users: [],
+      username: '',
+      email: '',
     };
+
+    this.addUser = this.addUser.bind(this);
+    this.handleChange = this.handleChange.bind(this)
   };
+
 
   componentDidMount() {
     this.getUsers();
   };
+
 
   getUsers() {
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
     .then((res) => { this.setState({ users: res.data.data.users }); })
     .catch((err) => { console.log(err); });
   };
+
+
+  addUser(event) {
+    event.preventDefault();
+    console.log('sanity check!')
+    console.log(this.state)
+  };
+
+
+  // update the state in parent (App) when the user enters text into the form's input boxes
+  handleChange(event) {
+  const obj = {};
+  obj[event.target.name] = event.target.value;
+  this.setState(obj);
+  };
+
 
   render() {
     return (
@@ -35,7 +58,12 @@ class App extends Component {
               <h1 className="title is-1">All Users</h1>
               <hr/><br/>
               {/* add a User */}
-              <AddUser/>
+              <AddUser
+                username={this.state.username}
+                email={this.state.email}
+                addUser={this.addUser}
+                handleChange={this.handleChange}
+              />
               <br/><br/>
               {/* pass state from parent (App component) to child (UsersList Component) via props */}
               <UsersList users={this.state.users}/>
