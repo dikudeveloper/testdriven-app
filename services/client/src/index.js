@@ -37,7 +37,7 @@ class App extends Component {
               {/* add a User */}
               <AddUser/>
               <br/><br/>
-              {/* pass state from parent (UsersList component) to child (App Component) via props */}
+              {/* pass state from parent (App component) to child (UsersList Component) via props */}
               <UsersList users={this.state.users}/>
             </div>
           </div>
