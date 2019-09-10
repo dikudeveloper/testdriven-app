@@ -16,6 +16,7 @@ class App extends Component {
       email: '',
     };
 
+    // bind class methods explicitly
     this.addUser = this.addUser.bind(this);
     this.handleChange = this.handleChange.bind(this)
   };
@@ -37,14 +38,27 @@ class App extends Component {
     event.preventDefault();
     console.log('sanity check!')
     console.log(this.state)
-  };
+
+    const data = {
+      username: this.state.username,
+      email: this.state.email
+    };
+
+    axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`, data)
+      .then((res) => {
+          console.log(res);
+          this.getUsers()
+          this.setState({ username: '', email: '' });
+       })
+      .catch((err) => { console.log(err); });
+    };
 
 
   // update the state in parent (App) when the user enters text into the form's input boxes
   handleChange(event) {
-  const obj = {};
-  obj[event.target.name] = event.target.value;
-  this.setState(obj);
+    const obj = {};
+    obj[event.target.name] = event.target.value;
+    this.setState(obj);
   };
 
 
@@ -73,6 +87,7 @@ class App extends Component {
       </section>
     )
   };
+
 };
 
 ReactDOM.render(
